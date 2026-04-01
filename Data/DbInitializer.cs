@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using HotelManagment.Models;
+using Hotel.Models;
 
 
 public static class DbInitializer

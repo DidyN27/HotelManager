@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace HotelManagment.Models
+namespace Hotel.Models
 {
     public class Client
     {
