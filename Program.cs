@@ -2,28 +2,35 @@ using Hotel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Hotel.Models;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
+// 1. Свързване с базата данни
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
+// 2. ДОБАВЯНЕ НА IDENTITY (Това липсваше!)
+// Тук казваме на системата да използва ApplicationUser и да добави поддръжка за Razor Pages (Identity страниците)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+})
+.AddRoles<IdentityRole>() 
+.AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages(); // Нужно е за Identity страниците като Login/Register
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 3. Конфигурация на Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -32,10 +39,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// ВАЖНО: Първо Authentication (кой си ти), после Authorization (какво можеш да правиш)
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Нужно е, за да работят Login/Register страниците
+app.MapRazorPages(); 
 
 app.Run();

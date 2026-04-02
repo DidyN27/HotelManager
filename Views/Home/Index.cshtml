@@ -1,8 +1,94 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Identity
+@using Hotel.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    Layout = null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home|Velvet & Vine</title>
+
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-small">Velvet & Vine</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Management ▾</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">Users (Admin)</a></li>
+                    <li><a href="#">Clients</a></li>
+                    <li><a href="#">Rooms</a></li>
+                    <li><a href="#">Reservations</a></li>
+                </ul>
+            </li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="/Login/Login">Log in</li>
+            <li><a asp-area="Identity" asp-page="/Login/Login" class="btn-login">Login</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero" id="hero">
+        <div class="hero-content">
+            <div class="main-logo">
+                <h1>Velvet & Vine</h1>
+                <p>Elegance in every reservation</p>
+            </div>
+            <button class="scroll-btn" onclick="scrollToLogin()">Enter System</button>
+        </div>
+    </header>
+
+    <section id="login-section" class="login-choice">
+        <h2>Welcome to Velvet & Vine</h2>
+        <p>Please select your profile to continue:</p>
+        <div class="choice-container">
+            <div class="card">
+                <h3>Administrator</h3>
+                <p>Full system control & user management</p>
+                <button onclick="location.href='login.html'">Enter Here</button>
+            </div>
+            <div class="card">
+                <h3>Employee</h3>
+                <p>Manage daily bookings and clients</p>
+                <button onclick="location.href='login.html'">Enter Here</button>
+            </div>
+            <div class="card">
+                <h3>Customer</h3>
+                <p>View availability and personal data</p>
+                <button onclick="location.href='login.html'">Enter Here</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Scroll effect for navbar and hero section
+        window.onscroll = function() {
+            var nav = document.querySelector(".navbar");
+            var hero = document.getElementById("hero");
+            if (window.pageYOffset > 100) {
+                nav.classList.add("nav-active");
+                hero.classList.add("hero-shrink");
+            } else {
+                nav.classList.remove("nav-active");
+                hero.classList.remove("hero-shrink");
+            }
+        };
+
+        // Smooth scroll to login section
+        function scrollToLogin() {
+            document.getElementById('login-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

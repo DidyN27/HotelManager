@@ -1,0 +1,50 @@
+@model Hotel.ViewModels.LoginViewModel
+
+@{
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Velvet & Vine</title>
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/login.css">
+</head>
+
+<body class="auth-body">
+
+    <div class="login-card">
+        <div class="login-header">
+            <h1>Velvet & Vine</h1>
+            <p>Management Portal Access</p>
+        </div>
+
+        <form asp-controller="Account" asp-action="Login" method="post" class="login-form">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="input-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control" placeholder="Enter your username" required>
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+
+            <div class="input-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" placeholder="••••••••" required>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn-login">Sign In</button>
+        </form>
+
+        <div class="login-footer">
+            <a href="#">Forgot password?</a>
+            <br>
+            <a href="/" class="back-to-site">← Back to Home Page</a>
+        </div>
+    </div>
+</body>
+</html>
