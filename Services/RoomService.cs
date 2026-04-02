@@ -15,20 +15,18 @@ namespace Hotel.Services
             _db = db;
         }
 
-        // Връща всички стаи за Index изгледа
         public IEnumerable<Room> GetAllRooms()
         {
             return _db.Rooms.ToList();
         }
 
-        // Логика за добавяне - ползва се от Админа [cite: 42]
+        
         public void AddRoom(Room room)
         {
             _db.Rooms.Add(room);
             _db.SaveChanges();
         }
 
-        // Филтриране по капацитет, тип и заетост [cite: 42]
         public IEnumerable<Room> GetFilteredRooms(int? capacity, string type, bool? isFree)
         {
             var query = _db.Rooms.AsQueryable();

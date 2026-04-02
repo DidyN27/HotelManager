@@ -64,8 +64,8 @@ namespace Hotel.Services
             return _db.Reservations
                 .Include(r => r.ReservedRoom)
                 .Include(r => r.Clients)
-                .Skip((page - 1) * pageSize) // Прескача предните страници
-                .Take(pageSize)              // Взима само текущата бройка
+                .Skip((page - 1) * pageSize) 
+                .Take(pageSize)              
                 .ToList();
         }
         public Reservation GetById(int id)
