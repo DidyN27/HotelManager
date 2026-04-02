@@ -4,7 +4,8 @@ namespace Hotel.Services
     public interface IReservationService
     {
         void CreateReservation(Reservation reservation);
-        IEnumerable<Reservation> GetAll(int page, int pageSize);
+        // Â IReservationService.cs
+        IEnumerable<Reservation> GetAll();
         Reservation GetById(int id);
         void Delete(int id);
 

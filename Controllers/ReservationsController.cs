@@ -1,60 +1,53 @@
-using Hotel.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Hotel.Services;
+using Hotel.Models;
+using Hotel.ViewModels; // Трябва ти за новия ViewModel
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Hotel.Data; // Добави това, за да вижда базата директно
 
 [Authorize]
 public class ReservationsController : Controller
 {
     private readonly IReservationService _reservationService;
     private readonly IRoomService _roomService;
-    private readonly IUserService _clientService;
+    private readonly ApplicationDbContext _context; // Ползваме контекста директно за клиентите
 
-    public ReservationsController(IReservationService resService, IRoomService roomService, IClientService clientService)
+    public ReservationsController(IReservationService resService, IRoomService roomService, ApplicationDbContext context)
     {
         _reservationService = resService;
         _roomService = roomService;
-        _clientService = clientService;
+        _context = context;
     }
 
-    // Списък с резервации
-    public IActionResult Index(int page = 1, int pageSize = 10)
+    // 1. Поправен Index - махаме параметрите, за да съвпадне със сървиса
+    public IActionResult Index()
     {
-        // Извикваме метода с параметрите за странициране
-        var reservations = _reservationService.GetAll(page, pageSize);
-
-        // Тези два реда трябва да сочат към правилните методи в твоите сървиси
-        ViewBag.Rooms = _roomService.GetAllRooms(); // или GetFilteredRooms()
-        ViewBag.Clients = _clientService.GetAll(); // увери се, че имаш _clientService
-
+        var reservations = _reservationService.GetAll();
         return View(reservations);
     }
 
-    // Създаване на резервация
+    // 2. Поправен Create (GET)
     public IActionResult Create()
     {
-        // Трябва да заредиш свободните стаи и наличните клиенти в Dropdown менюта
-        ViewBag.Rooms = _roomService.GetAvailableRooms();
-        ViewBag.Clients = _clientService.GetAllClients();
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult Create(ReservationViewModel model)
-    {
-        if (ModelState.IsValid)
+        var viewModel = new ReservationCreateViewModel
         {
-            // Тук бизнес слоят изчислява сумата автоматично преди записа
-            _reservationService.CreateReservation(model, User.Identity.Name);
-            return RedirectToAction(nameof(Index));
-        }
-        return View(model);
-    }
+            // Използваме GetFilteredRooms (както е в твоя сървис)
+            AvailableRooms = _roomService.GetFilteredRooms(null, null, true)
+                .Select(r => new SelectListItem
+                {
+                    Value = r.Id.ToString(),
+                    Text = $"Room No.{r.RoomNumber}"
+                }),
 
-    // Детайли - показва пълна информация и списък с настанените клиенти
-    public IActionResult Details(int id)
-    {
-        var details = _reservationService.GetDetails(id);
-        if (details == null) return NotFound();
-        return View(details);
+            // Взимаме клиентите директно от базата
+            AllClients = _context.Clients.Select(c => new SelectListItem
+            {
+                Value = c.ClientID.ToString(),
+                Text = $"{c.FirstName} {c.LastName}"
+            })
+        };
+
+        return View(viewModel);
     }
 }

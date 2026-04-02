@@ -59,13 +59,12 @@ namespace Hotel.Services
             _db.SaveChanges();
         }
 
-        public IEnumerable<Reservation> GetAll(int page, int pageSize)
+        // Â ReservationService.cs
+        public IEnumerable<Reservation> GetAll()
         {
             return _db.Reservations
                 .Include(r => r.ReservedRoom)
                 .Include(r => r.Clients)
-                .Skip((page - 1) * pageSize) 
-                .Take(pageSize)              
                 .ToList();
         }
         public Reservation GetById(int id)
