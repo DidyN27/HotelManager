@@ -1,0 +1,61 @@
+/* wwwroot/css/login.css */
+.auth-body {
+    background: #fdf5e6; /* Топъл бежов цвят като на Velvet & Vine */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-header h1 {
+    font-family: 'Playfair Display', serif;
+    color: #4a0e0e;
+    margin-bottom: 5px;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box; /* Важно за подравняването */
+}
+
+.btn-login {
+    background: #6b1414;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.btn-login:hover {
+    background: #4a0e0e;
+}
