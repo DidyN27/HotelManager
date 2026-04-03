@@ -1,0 +1,17 @@
+@model IEnumerable<Hotel.Models.Room>
+
+<div class="management-card">
+    <h2><i class="fas fa-bed"></i> Room Inventory</h2>
+    <div class="room-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
+        @foreach (var room in Model) {
+            <div class="card" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px;">
+                <h3>Room #@room.Number</h3>
+                <p>Type: <strong>@room.Type</strong></p>
+                <p>Price: @room.PricePerNight$</p>
+                <div class="status @(room.IsAvailable ? "text-success" : "text-danger")">
+                    @(room.IsAvailable ? "● Available" : "● Occupied")
+                </div>
+            </div>
+        }
+    </div>
+</div>
