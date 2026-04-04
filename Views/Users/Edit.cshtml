@@ -1,0 +1,51 @@
+﻿@model Hotel.ViewModels.UserEditViewModel
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
+<h1 class="vv-page-title">@ViewData["Title"]</h1>
+
+<div class="vv-card" style="max-width: 700px;">
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <div class="form-check form-switch">
+                <input asp-for="IsActive" class="form-check-input" type="checkbox" role="switch" id="activeSwitch">
+                <label class="form-check-label fw-bold" for="activeSwitch">Employee is currently active</label>
+            </div>
+            <small class="text-muted">Deactivating an employee will set their dismissal date to today.</small>
+        </div>
+
+        <hr />
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-vv-primary">Save Changes</button>
+            <a asp-action="Index" class="btn btn-vv-outline ms-2">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

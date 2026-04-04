@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Hotel.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<h1 class="vv-page-title">Reservations</h1>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-vv-primary">
+        <i class="fas fa-plus"></i> New Reservation
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="vv-card">
+        <p class="text-muted mb-0">No reservations found in the system.</p>
+    </div>
+}
+else
+{
+    <div class="table-responsive vv-card p-0">
+        <table class="table table-striped vv-table mb-0">
+            <thead>
+                <tr>
+                    <th>Room</th>
+                    <th>Guests</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Total Price</th>
+                    <th>Staff Member</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold">#@item.ReservedRoom?.RoomNumber</td>
+                        <td>
+                            <span class="badge bg-light text-dark border">
+                                @item.Clients.Count Guests
+                            </span>
+                        </td>
+                        <td>@item.CheckInDate.ToString("MMM dd, yyyy")</td>
+                        <td>@item.CheckOutDate.ToString("MMM dd, yyyy")</td>
+                        <td class="text-primary fw-bold">@item.TotalAmount.ToString("C")</td>
+                        <td><small class="text-muted">@item.User?.UserName</small></td>
+                        <td class="text-end text-nowrap">
+                            <a asp-action="Details" asp-route-id="@item.ReservationId" class="btn btn-sm btn-vv-outline me-1">
+                                <i class="fas fa-info-circle"></i> Details
+                            </a>
+
+                            <form asp-action="Delete" asp-route-id="@item.ReservationId" method="post"
+                                  onsubmit="return confirm('Are you sure you want to cancel this reservation?');"
+                                  style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-vv-danger">
+                                    <i class="fas fa-trash-alt"></i> Cancel
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

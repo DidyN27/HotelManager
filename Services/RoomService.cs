@@ -45,17 +45,23 @@ namespace Hotel.Services
 
         public void UpdateRoom(Room room)
         {
-            throw new NotImplementedException();
+            _db.Rooms.Update(room);
+            _db.SaveChanges();
         }
 
         public void DeleteRoom(int id)
         {
-            throw new NotImplementedException();
+            var room = _db.Rooms.Find(id);
+            if (room != null)
+            {
+                _db.Rooms.Remove(room);
+                _db.SaveChanges();
+            }
         }
 
         public Room GetRoomById(int id)
         {
-            throw new NotImplementedException();
+            return _db.Rooms.Find(id);
         }
     }
 }

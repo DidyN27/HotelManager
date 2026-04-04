@@ -12,30 +12,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home|Velvet & Vine</title>
+    <title>Home | Velvet & Vine</title>
 
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/site.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
     <nav class="navbar">
         <div class="logo-small">Velvet & Vine</div>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropbtn">Management ▾</a>
-                <ul class="dropdown-content">
-                    <li><a href="#">Users (Admin)</a></li>
-                    <li><a href="#">Clients</a></li>
-                    <li><a href="#">Rooms</a></li>
-                    <li><a href="#">Reservations</a></li>
-                </ul>
-            </li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="/Login/Login">Log in</li>
-            <li><a asp-area="Identity" asp-page="/Login/Login" class="btn-login">Login</a></li>
+            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Management ▾</a>
+                    <ul class="dropdown-content">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a asp-controller="Users" asp-action="Index">Employees (Admin)</a></li>
+                        }
+                        <li><a asp-controller="Clients" asp-action="Index">Clients</a></li>
+                        <li><a asp-controller="Rooms" asp-action="Index">Rooms</a></li>
+                        <li><a asp-controller="Reservations" asp-action="Index">Reservations</a></li>
+                    </ul>
+                </li>
+            }
+
+            <li><a href="#hero">About Us</a></li>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <li class="nav-item">
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="btn-login" style="background:none; border:none; color:inherit; cursor:pointer;">Logout (@User.Identity.Name)</button>
+                    </form>
+                </li>
+            }
+            else
+            {
+                <li><a asp-area="Identity" asp-page="/Account/Login" class="btn-login">Login</a></li>
+
+                <li><a asp-controller="Account" asp-action="LogIn" class="btn-login">Login</a></li>
+            }
         </ul>
     </nav>
 
@@ -45,34 +67,36 @@
                 <h1>Velvet & Vine</h1>
                 <p>Elegance in every reservation</p>
             </div>
-            <button class="scroll-btn" onclick="scrollToLogin()">Enter System</button>
+            @if (!SignInManager.IsSignedIn(User))
+            {
+                <button class="scroll-btn" onclick="scrollToLogin()">Get Started</button>
+            }
+            else
+            {
+                <button class="scroll-btn" onclick="location.href='#welcome-section'">View Dashboard</button>
+            }
         </div>
     </header>
 
     <section id="login-section" class="login-choice">
-        <h2>Welcome to Velvet & Vine</h2>
-        <p>Please select your profile to continue:</p>
-        <div class="choice-container">
-            <div class="card">
-                <h3>Administrator</h3>
-                <p>Full system control & user management</p>
-                <button onclick="location.href='@Url.Action("LogIn", "Account")'">Enter Here</button>
-            </div>
-            <div class="card">
-                <h3>Employee</h3>
-                <p>Manage daily bookings and clients</p>
-                <button onclick="location.href='login.html'">Enter Here</button>
-            </div>
-            <div class="card">
-                <h3>Customer</h3>
-                <p>View availability and personal data</p>
-                <button onclick="location.href='login.html'">Enter Here</button>
-            </div>
+        <div id="welcome-section" class="py-5">
+            <h2>Welcome to Velvet & Vine</h2>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <p>You are currently logged in as <strong>@User.Identity.Name</strong>.</p>
+                <p>Use the <strong>Management</strong> menu above to navigate the system.</p>
+            }
+            else
+            {
+                <p>Please log in to the system to manage reservations, rooms, and clients.</p>
+                <div class="mt-4">
+                    <a asp-area="Identity" asp-page="/Account/Login" class="btn-vv-primary" style="padding: 15px 40px; text-decoration: none; border-radius: 30px;">Access Staff Portal</a>
+                </div>
+            }
         </div>
     </section>
 
     <script>
-        // Scroll effect for navbar and hero section
         window.onscroll = function() {
             var nav = document.querySelector(".navbar");
             var hero = document.getElementById("hero");
@@ -85,7 +109,6 @@
             }
         };
 
-        // Smooth scroll to login section
         function scrollToLogin() {
             document.getElementById('login-section').scrollIntoView({ behavior: 'smooth' });
         }

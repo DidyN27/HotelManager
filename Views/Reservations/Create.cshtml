@@ -1,0 +1,70 @@
+﻿@model Hotel.ViewModels.ReservationCreateViewModel
+
+<h1 class="vv-page-title">New Reservation</h1>
+
+<div class="vv-card">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="RoomId" class="form-label fw-bold"></label>
+                <select asp-for="RoomId" class="form-select" asp-items="Model.AvailableRooms">
+                    <option value="">-- Select an Available Room --</option>
+                </select>
+                <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label asp-for="SelectedClientIds" class="form-label fw-bold"></label>
+                <select asp-for="SelectedClientIds" class="form-select" asp-items="Model.AllClients" multiple style="height: 120px;">
+                </select>
+                <small class="text-muted">Hold Ctrl (Cmd on Mac) to select multiple guests.</small>
+                <span asp-validation-for="SelectedClientIds" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="CheckInDate" class="form-label fw-bold"></label>
+                <input asp-for="CheckInDate" class="form-control" type="date" />
+                <span asp-validation-for="CheckInDate" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="CheckOutDate" class="form-label fw-bold"></label>
+                <input asp-for="CheckOutDate" class="form-control" type="date" />
+                <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="form-check form-switch">
+                    <input asp-for="HasBreakfast" class="form-check-input" type="checkbox" role="switch">
+                    <label asp-for="HasBreakfast" class="form-check-label fw-bold"></label>
+                </div>
+                <p class="text-muted small">Adds $10.00 per person/night.</p>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-check form-switch">
+                    <input asp-for="IsAllInclusive" class="form-check-input" type="checkbox" role="switch">
+                    <label asp-for="IsAllInclusive" class="form-check-label fw-bold"></label>
+                </div>
+                <p class="text-muted small">Adds $20.00 per person/night (Overwrites breakfast).</p>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-vv-primary px-5">Book Reservation</button>
+            <a asp-action="Index" class="btn btn-vv-outline ms-2">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

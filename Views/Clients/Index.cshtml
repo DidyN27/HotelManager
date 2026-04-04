@@ -1,3 +1,4 @@
+@using Hotel.ViewModels
 @model ClientIndexViewModel
 @{
     ViewData["Title"] = "Guests";
@@ -50,12 +51,24 @@
 {
     <nav class="mt-3">
         <ul class="pagination justify-content-center">
-            <li class="page-item @(Model.Pager.HasPrevious ? "" : "disabled")">
-                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Pager.Page - 1)" asp-route-search="@Model.Search">Previous</a>
+            @* Previous Button - Changed 'page' to 'pg' *@
+            <li class="page-item @(Model.Pager.CurrentPage > 1 ? "" : "disabled")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pg="@(Model.Pager.CurrentPage - 1)"
+                   asp-route-search="@Model.Search">Previous</a>
             </li>
-            <li class="page-item disabled"><span class="page-link">@Model.Pager.Page / @Model.Pager.TotalPages</span></li>
-            <li class="page-item @(Model.Pager.HasNext ? "" : "disabled")">
-                <a class="page-link" asp-action="Index" asp-route-page="@(Model.Pager.Page + 1)" asp-route-search="@Model.Search">Next</a>
+
+            <li class="page-item disabled">
+                <span class="page-link">@Model.Pager.CurrentPage / @Model.Pager.TotalPages</span>
+            </li>
+
+            @* Next Button - Changed 'page' to 'pg' *@
+            <li class="page-item @(Model.Pager.CurrentPage < Model.Pager.TotalPages ? "" : "disabled")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-pg="@(Model.Pager.CurrentPage + 1)"
+                   asp-route-search="@Model.Search">Next</a>
             </li>
         </ul>
     </nav>

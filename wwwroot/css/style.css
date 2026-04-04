@@ -1,164 +1,165 @@
-:root {
-    --bordo: #6b0d0d;
-    --beige: #f4e1d2;
-    --dark-gray: #333;
-    --light-gray: #e0e0e0;
+/* --- Velvet & Vine Management UI Styles --- */
+
+/* The Container for your tables and forms */
+
+/* Add this to style.css to fix the link visibility on subpages */
+.nav-active {
+    background: #6b0d0d !important; /* Your bordo color */
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--beige);
-    color: var(--dark-gray);
-    overflow-x: hidden;
-}
-
-/* Навигация */
+/* Ensure the Navbar is a Flex container */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    display: flex;
+    display: flex; /* This is key! */
     justify-content: space-between;
     align-items: center;
-    padding: 20px 50px;
+    padding: 20px 80px;
     transition: 0.5s;
     z-index: 1000;
+    background-color: var(--bordo); /* Solid bordo on subpages */
 }
 
-.nav-active {
-    background: var(--bordo);
-    padding: 10px 50px;
-}
-
-.nav-active a {
-    color: white !important;
-}
-
-.logo-small {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: var(--bordo);
-    font-weight: bold;
-}
-
-.nav-active .logo-small { color: white; }
-
+/* Fix the list styling */
 .nav-links {
-    list-style: none;
-    display: flex;
+    list-style: none; /* Removes the dots */
+    display: flex; /* Makes the list horizontal */
+    margin: 0;
+    padding: 0;
+    align-items: center;
 }
 
-.nav-links li { margin: 0 20px; position: relative; }
+    .nav-links li {
+        margin-left: 30px; /* Space between links */
+        position: relative;
+    }
 
-.nav-links a {
-    text-decoration: none;
-    color: var(--dark-gray);
-    font-weight: 600;
-    transition: 0.3s;
-}
+    .nav-links a, .dropbtn {
+        text-decoration: none !important;
+        color: white !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: 0.3s;
+        background: none;
+        border: none;
+    }
 
-/* Падащо меню */
+/* Dropdown Menu Positioning */
 .dropdown-content {
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
+    right: 0; /* Align to the right of the parent */
     background-color: white;
-    min-width: 200px;
+    min-width: 180px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    list-style: none;
-    border-radius: 4px;
-    overflow: hidden;
+    border-radius: 8px;
+    z-index: 1001;
 }
 
-.dropdown-content li a {
-    color: var(--dark-gray) !important;
-    padding: 12px 16px;
-    display: block;
-}
+    .dropdown-content li {
+        margin: 0; /* Reset margins for dropdown items */
+    }
 
-.dropdown-content li a:hover {
-    background-color: var(--light-gray);
-    color: var(--bordo) !important;
-}
+        .dropdown-content li a {
+            color: var(--dark-gray) !important;
+            padding: 12px 20px;
+            display: block;
+            font-size: 0.9rem;
+        }
 
-.dropdown:hover .dropdown-content {
-    display: block;
-    animation: fadeIn 0.3s ease;
-}
-
-/* Hero секция */
-.hero {
-    height: 100vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1350&q=80'); /* Временно изображение */
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: white;
-    transition: 1s;
-}
-
-.hero-shrink {
-    height: 50vh;
-}
-
-.main-logo h1 {
+/* Logo specific fix */
+.logo-small {
     font-family: 'Playfair Display', serif;
-    font-size: 5rem;
-    margin-bottom: 10px;
+    font-size: 1.6rem;
+    color: white !important;
+    font-weight: bold;
 }
 
-/* Секция за избор */
-.login-choice {
-    padding: 100px 50px;
-    text-align: center;
-    background-color: white;
-}
-
-.choice-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 50px;
-}
-
-.card {
-    background: var(--beige);
-    padding: 40px;
-    border-radius: 10px;
-    width: 300px;
-    transition: 0.3s;
+.vv-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    margin-bottom: 30px;
     border: 1px solid var(--light-gray);
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(107, 13, 13, 0.2);
+/* Page Titles */
+.vv-page-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--bordo);
+    font-weight: bold;
+    margin-top: 100px; /* Space for the fixed navbar */
+    margin-bottom: 30px;
 }
 
-.card h3 { color: var(--bordo); margin-bottom: 20px; }
+/* Table Styling */
+.vv-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
 
-button {
+    .vv-table thead th {
+        background-color: #fafafa;
+        color: var(--bordo);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        padding: 15px;
+        border-bottom: 2px solid var(--beige);
+    }
+
+    .vv-table tbody td {
+        padding: 15px;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--light-gray);
+    }
+
+/* Custom Buttons */
+.btn-vv-primary {
     background-color: var(--bordo);
-    color: white;
+    color: white !important;
+    border-radius: 30px;
+    padding: 10px 25px;
+    transition: 0.3s;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
     font-weight: 600;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    .btn-vv-primary:hover {
+        background-color: #4a0e0e;
+        transform: translateY(-2px);
+    }
+
+.btn-vv-outline {
+    background-color: transparent;
+    color: var(--bordo) !important;
+    border: 2px solid var(--bordo);
+    border-radius: 30px;
+    padding: 8px 20px;
+    transition: 0.3s;
+    font-weight: 600;
 }
+
+    .btn-vv-outline:hover {
+        background-color: var(--bordo);
+        color: white !important;
+    }
+
+.btn-vv-danger {
+    background-color: transparent;
+    color: #dc3545 !important;
+    border: 1px solid #dc3545;
+    border-radius: 30px;
+    padding: 5px 15px;
+    font-size: 0.85rem;
+}
+
+    .btn-vv-danger:hover {
+        background-color: #dc3545;
+        color: white !important;
+    }

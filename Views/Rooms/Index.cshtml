@@ -1,17 +1,120 @@
 @model IEnumerable<Hotel.Models.Room>
 
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="vv-page-title mb-0"><i class="fas fa-bed"></i> Room Inventory</h1>
+    <a asp-action="Create" class="btn btn-vv-primary">
+        <i class="fas fa-plus"></i> Add New Room
+    </a>
+</div>
+
 <div class="management-card">
-    <h2><i class="fas fa-bed"></i> Room Inventory</h2>
-    <div class="room-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
-        @foreach (var room in Model) {
-            <div class="card" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px;">
-                <h3>Room #@room.RoomNumber</h3>
-                <p>Type: <strong>@room.Type</strong></p>
-                <p>Price: @room.PriceForAdult$</p>
-                <div class="status @(room.IsFree ? "text-success" : "text-danger")">
-                    @(room.IsFree ? "● Available" : "● Occupied")
+    <div class="room-grid">
+        @foreach (var room in Model)
+        {
+            <div class="room-card @(room.IsFree ? "status-available" : "status-occupied")">
+                <div class="room-header">
+                    <h3>Room #@room.RoomNumber</h3>
+                    <span class="room-type">@room.Type</span>
+                </div>
+
+                <div class="room-body">
+                    <div class="price-tag">
+                        <span class="label">Adult Price</span>
+                        <span class="value">$@room.PriceForAdult</span>
+                    </div>
+
+                    <div class="status-indicator">
+                        <i class="fas @(room.IsFree ? "fa-check-circle" : "fa-user-lock")"></i>
+                        @(room.IsFree ? "Available" : "Occupied")
+                    </div>
+                </div>
+
+                <div class="room-footer">
+                    <a asp-action="Edit" asp-route-id="@room.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@room.Id" class="btn btn-sm btn-vv-danger">Delete</a>
                 </div>
             </div>
         }
     </div>
 </div>
+
+<style>
+    /* The Grid Logic */
+    .room-grid {
+        display: grid;
+        /* This forces exactly 3 columns on desktop */
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        padding: 10px;
+    }
+
+    /* Card Styling */
+    .room-card {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 20px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+    .room-header h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        color: #2d3748;
+    }
+
+    .room-type {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        color: #718096;
+        letter-spacing: 1px;
+    }
+
+    .room-body {
+        margin: 15px 0;
+    }
+
+    .price-tag .value {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #4a5568;
+    }
+
+    /* Status Coloring */
+    .status-available {
+        border-top: 4px solid #48bb78;
+    }
+
+    .status-occupied {
+        border-top: 4px solid #f56565;
+    }
+
+    .status-indicator {
+        margin-top: 10px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .status-available .status-indicator {
+        color: #48bb78;
+    }
+
+    .status-occupied .status-indicator {
+        color: #f56565;
+    }
+
+    .room-footer {
+        display: flex;
+        gap: 10px;
+        border-top: 1px solid #edf2f7;
+        padding-top: 15px;
+    }
+</style>

@@ -1,3 +1,5 @@
+@using Hotel.ViewModels
+
 @model RoomCreateEditViewModel
 @{
     ViewData["Title"] = "Add room";
@@ -19,7 +21,7 @@
             </div>
             <div class="col-md-4 mb-3">
                 <label asp-for="Type" class="form-label"></label>
-                <select asp-for="Type" class="form-select" asp-items="@Html.GetEnumSelectList<RoomType>()"></select>
+                <select asp-for="Type" class="form-select" asp-items="@Html.GetEnumSelectList<RoomTypes>()"></select>
             </div>
             <div class="col-md-4 mb-3">
                 <label asp-for="PriceAdult" class="form-label"></label>
