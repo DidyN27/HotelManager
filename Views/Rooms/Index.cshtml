@@ -5,11 +5,11 @@
     <div class="room-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
         @foreach (var room in Model) {
             <div class="card" style="border: 1px solid #ddd; padding: 15px; border-radius: 10px;">
-                <h3>Room #@room.Number</h3>
+                <h3>Room #@room.RoomNumber</h3>
                 <p>Type: <strong>@room.Type</strong></p>
-                <p>Price: @room.PricePerNight$</p>
-                <div class="status @(room.IsAvailable ? "text-success" : "text-danger")">
-                    @(room.IsAvailable ? "● Available" : "● Occupied")
+                <p>Price: @room.PriceForAdult$</p>
+                <div class="status @(room.IsFree ? "text-success" : "text-danger")">
+                    @(room.IsFree ? "● Available" : "● Occupied")
                 </div>
             </div>
         }
