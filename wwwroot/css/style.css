@@ -1,37 +1,55 @@
 /* --- Velvet & Vine Management UI Styles --- */
 
-/* The Container for your tables and forms */
-
-/* Add this to style.css to fix the link visibility on subpages */
-.nav-active {
-    background: #6b0d0d !important; /* Your bordo color */
+/* 1. Root Variables - The "Fuel" for your colors */
+:root {
+    --bordo: #6b0d0d;
+    --beige: #f5f5dc;
+    --dark-gray: #333333;
+    --light-gray: #eeeeee;
+    --white: #ffffff;
 }
 
-/* Ensure the Navbar is a Flex container */
+/* 2. Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--white);
+    overflow-x: hidden;
+}
+
+/* 3. Navbar & Navigation */
+.nav-active {
+    background: #6b0d0d !important;
+}
+
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    display: flex; /* This is key! */
+    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 80px;
     transition: 0.5s;
     z-index: 1000;
-    background-color: var(--bordo); /* Solid bordo on subpages */
+    background-color: var(--bordo); /* Solid bordo base */
 }
 
-/* Fix the list styling */
 .nav-links {
-    list-style: none; /* Removes the dots */
-    display: flex; /* Makes the list horizontal */
+    list-style: none;
+    display: flex;
     margin: 0;
     padding: 0;
     align-items: center;
 }
 
     .nav-links li {
-        margin-left: 30px; /* Space between links */
+        margin-left: 30px;
         position: relative;
     }
 
@@ -45,38 +63,98 @@
         border: none;
     }
 
-/* Dropdown Menu Positioning */
+/* 4. Dropdown Menu Logic */
 .dropdown-content {
     display: none;
     position: absolute;
     top: 100%;
-    right: 0; /* Align to the right of the parent */
+    right: 0;
     background-color: white;
     min-width: 180px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     border-radius: 8px;
     z-index: 1001;
+    padding: 10px 0;
 }
 
-    .dropdown-content li {
-        margin: 0; /* Reset margins for dropdown items */
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li {
+    margin: 0;
+    display: block;
+}
+
+    .dropdown-content li a {
+        color: var(--dark-gray) !important;
+        padding: 12px 20px;
+        display: block;
+        font-size: 0.9rem;
     }
 
-        .dropdown-content li a {
-            color: var(--dark-gray) !important;
-            padding: 12px 20px;
-            display: block;
-            font-size: 0.9rem;
+        .dropdown-content li a:hover {
+            background-color: var(--light-gray);
+            color: var(--bordo) !important;
         }
 
-/* Logo specific fix */
+/* 5. Logo & Branding */
 .logo-small {
     font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     color: white !important;
     font-weight: bold;
 }
 
+/* 6. Hero Section (Home Page Centerpiece) */
+.hero {
+    height: 100vh;
+    width: 100%;
+    /* Overlay: Deep Burgundy to Black gradient for a luxury feel */
+    background: linear-gradient(rgba(107, 13, 13, 0.6), rgba(0, 0, 0, 0.7)), url('/images/hotel-bg.jpg');
+    background-size: cover; /* Ensures the image fills the entire header */
+    background-position: center; /* Keeps the focus on the center of your photo */
+    background-attachment: fixed; /* Optional: Adds a high-end parallax scroll effect */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+/* Ensure the text is readable over the image */
+.hero-content {
+    text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.main-logo h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 5.5rem;
+    margin: 0;
+}
+
+.scroll-btn {
+    background-color: var(--bordo);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: 600;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+    .scroll-btn:hover {
+        transform: scale(1.05);
+        background-color: #8a1212;
+    }
+
+/* 7. Cards & Layout Containers */
 .vv-card {
     background: white;
     border-radius: 15px;
@@ -86,16 +164,15 @@
     border: 1px solid var(--light-gray);
 }
 
-/* Page Titles */
 .vv-page-title {
     font-family: 'Playfair Display', serif;
     color: var(--bordo);
     font-weight: bold;
-    margin-top: 100px; /* Space for the fixed navbar */
+    margin-top: 100px;
     margin-bottom: 30px;
 }
 
-/* Table Styling */
+/* 8. Table Styling */
 .vv-table {
     width: 100%;
     border-collapse: separate;
@@ -119,8 +196,8 @@
         border-bottom: 1px solid var(--light-gray);
     }
 
-/* Custom Buttons */
-.btn-vv-primary {
+/* 9. Specialized Buttons */
+.btn-vv-primary, .btn-login {
     background-color: var(--bordo);
     color: white !important;
     border-radius: 30px;
@@ -128,9 +205,11 @@
     transition: 0.3s;
     border: none;
     font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
 }
 
-    .btn-vv-primary:hover {
+    .btn-vv-primary:hover, .btn-login:hover {
         background-color: #4a0e0e;
         transform: translateY(-2px);
     }
@@ -143,12 +222,8 @@
     padding: 8px 20px;
     transition: 0.3s;
     font-weight: 600;
+    text-decoration: none;
 }
-
-    .btn-vv-outline:hover {
-        background-color: var(--bordo);
-        color: white !important;
-    }
 
 .btn-vv-danger {
     background-color: transparent;
@@ -157,9 +232,63 @@
     border-radius: 30px;
     padding: 5px 15px;
     font-size: 0.85rem;
+    text-decoration: none;
 }
 
-    .btn-vv-danger:hover {
-        background-color: #dc3545;
-        color: white !important;
+/* Custom Table Spacing & Logic */
+.vv-table tbody td {
+    padding: 20px 15px; /* Increased padding for more white space */
+}
+
+/* Status Badges */
+.badge-active {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-fired {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Smaller Action Buttons */
+.btn-vv-outline-sm {
+    border: 1px solid var(--bordo);
+    color: var(--bordo);
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+    .btn-vv-outline-sm:hover {
+        background: var(--bordo);
+        color: white;
+    }
+
+.btn-vv-danger-sm {
+    background: none;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .btn-vv-danger-sm:hover {
+        background: #dc3545;
+        color: white;
     }

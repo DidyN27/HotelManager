@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Identity
 @using Hotel.Models
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -14,8 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | Velvet & Vine</title>
 
-    <link rel="stylesheet" href="~/css/style.css">
-    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/style.css" asp-append-version="true">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -47,16 +48,18 @@
             @if (SignInManager.IsSignedIn(User))
             {
                 <li class="nav-item">
-                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button type="submit" class="btn-login" style="background:none; border:none; color:inherit; cursor:pointer;">Logout (@User.Identity.Name)</button>
+                    <form action="/Account/Logout" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="nav-link-fancy"
+                                style="background:none; border:none; color:white; cursor:pointer; font-weight:600; padding:0; margin:0;">
+                            Logout (@User.Identity.Name)
+                        </button>
                     </form>
                 </li>
             }
             else
             {
-                <li><a asp-area="Identity" asp-page="/Account/Login" class="btn-login">Login</a></li>
-
-                <li><a asp-controller="Account" asp-action="LogIn" class="btn-login">Login</a></li>
+                <li><a href="/Account/LogIn" class="btn-login">Login</a></li>
             }
         </ul>
     </nav>
@@ -73,14 +76,15 @@
             }
             else
             {
-                <button class="scroll-btn" onclick="location.href='#welcome-section'">View Dashboard</button>
+                @* FIXED: Use onclick to scroll to welcome instead of a hash if needed *@
+                <button class="scroll-btn" onclick="document.getElementById('welcome-section').scrollIntoView({behavior: 'smooth'})">View Dashboard</button>
             }
         </div>
     </header>
 
     <section id="login-section" class="login-choice">
-        <div id="welcome-section" class="py-5">
-            <h2>Welcome to Velvet & Vine</h2>
+        <div id="welcome-section" class="py-5" style="text-align:center;">
+            <h2 style="font-family: 'Playfair Display'; font-size: 3rem; color: #6b0d0d;">Welcome to Velvet & Vine</h2>
             @if (SignInManager.IsSignedIn(User))
             {
                 <p>You are currently logged in as <strong>@User.Identity.Name</strong>.</p>
@@ -90,7 +94,8 @@
             {
                 <p>Please log in to the system to manage reservations, rooms, and clients.</p>
                 <div class="mt-4">
-                    <a asp-area="Identity" asp-page="/Account/Login" class="btn-vv-primary" style="padding: 15px 40px; text-decoration: none; border-radius: 30px;">Access Staff Portal</a>
+                    @* FIXED: Pointed to your specific login path *@
+                    <a href="/Account/LogIn" class="btn-vv-primary" style="padding: 15px 40px; text-decoration: none; border-radius: 30px; background: #6b0d0d; color: white; display: inline-block;">Access Staff Portal</a>
                 </div>
             }
         </div>
@@ -102,10 +107,10 @@
             var hero = document.getElementById("hero");
             if (window.pageYOffset > 100) {
                 nav.classList.add("nav-active");
-                hero.classList.add("hero-shrink");
+                if(hero) hero.classList.add("hero-shrink");
             } else {
                 nav.classList.remove("nav-active");
-                hero.classList.remove("hero-shrink");
+                if(hero) hero.classList.remove("hero-shrink");
             }
         };
 

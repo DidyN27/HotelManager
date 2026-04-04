@@ -11,5 +11,6 @@ namespace Hotel.Services
         void UpdateRoom(Room room);
         void DeleteRoom(int id);
         Room GetRoomById(int id);
+        public void RefreshRoomStatuses();
     }
 }

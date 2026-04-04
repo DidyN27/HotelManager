@@ -18,6 +18,8 @@ namespace Hotel.Controllers
 
         public IActionResult Index(int? capacity, string type, bool? isFree)
         {
+            _roomService.RefreshRoomStatuses();
+
             var rooms = _roomService.GetFilteredRooms(capacity, type, isFree);
             return View(rooms);
         }

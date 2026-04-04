@@ -1,6 +1,7 @@
 using Hotel.Data;
 using Hotel.Models;
 using Hotel.Services;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -62,6 +63,20 @@ namespace Hotel.Services
         public Room GetRoomById(int id)
         {
             return _db.Rooms.Find(id);
+        }
+
+        public void RefreshRoomStatuses()
+        {
+            var expiredRooms = _db.Rooms
+                .Where(r => !r.IsFree && !_db.Reservations
+                    .Any(res => res.RoomId == r.Id && res.CheckOutDate > DateTime.Now))
+                .ToList();
+
+            foreach (var room in expiredRooms)
+            {
+                room.IsFree = true;
+            }
+            _db.SaveChanges();
         }
     }
 }

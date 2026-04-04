@@ -8,7 +8,7 @@ using Hotel.Data;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 
-[Authorize(Roles = "Admin,Employee")]
+//[Authorize(Roles = "Admin,Employee")]
 public class ReservationsController : Controller
 {
     private readonly IReservationService _reservationService;
